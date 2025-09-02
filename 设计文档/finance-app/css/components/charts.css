@@ -1,0 +1,520 @@
+/**
+ * 图表组件样式
+ * Chart.js图表的样式定制和容器布局
+ * Author: 设计团队
+ * Version: 1.0.0
+ */
+
+/* ==================== 图表容器 ==================== */
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-container canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* 图表尺寸变体 */
+.chart-container--sm {
+  height: 200px;
+}
+
+.chart-container--lg {
+  height: 360px;
+}
+
+.chart-container--xl {
+  height: 480px;
+}
+
+/* ==================== 环形图表 ==================== */
+
+.doughnut-chart {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+}
+
+.chart-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.chart-center__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chart-center__value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.chart-center__sub {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-xs);
+}
+
+/* ==================== 图表卡片 ==================== */
+
+.chart-card {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  transition: var(--transition-all);
+}
+
+.chart-card:hover {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.chart-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+.chart-card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.chart-card__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: var(--space-xs) 0 0;
+}
+
+.chart-card__actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.chart-card__action {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-primary);
+  background: transparent;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.chart-card__action:hover {
+  background: rgba(0, 122, 255, 0.1);
+  border-color: var(--color-accent-primary);
+}
+
+.chart-card__body {
+  position: relative;
+}
+
+/* ==================== 图表图例 ==================== */
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border-primary);
+}
+
+.chart-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.chart-legend__color {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--border-radius-sm);
+  flex-shrink: 0;
+}
+
+.chart-legend__label {
+  font-weight: var(--font-weight-medium);
+}
+
+.chart-legend__value {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-left: var(--space-xs);
+}
+
+/* ==================== 趋势图表 ==================== */
+
+.trend-chart {
+  width: 100%;
+  height: 300px;
+}
+
+.trend-chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ==================== 柱状图表 ==================== */
+
+.bar-chart {
+  width: 100%;
+  height: 280px;
+}
+
+.bar-chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ==================== 饼图 ==================== */
+
+.pie-chart {
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+}
+
+.pie-chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ==================== 图表工具提示 ==================== */
+
+.chart-tooltip {
+  background: rgba(44, 44, 44, 0.95) !important;
+  color: var(--color-text-primary) !important;
+  border: 1px solid var(--color-border-primary) !important;
+  border-radius: var(--border-radius-md) !important;
+  font-size: var(--font-size-sm) !important;
+  font-family: var(--font-family-primary) !important;
+  padding: var(--space-sm) var(--space-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.chart-tooltip-title {
+  font-weight: var(--font-weight-semibold) !important;
+  margin-bottom: var(--space-xs) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.chart-tooltip-body {
+  color: var(--color-text-secondary) !important;
+}
+
+/* ==================== 加载状态 ==================== */
+
+.chart-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 280px;
+  color: var(--color-text-tertiary);
+}
+
+.chart-loading__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-bg-tertiary);
+  border-top: 3px solid var(--color-accent-primary);
+  border-radius: 50%;
+  animation: chart-spin 1s linear infinite;
+  margin-bottom: var(--space-md);
+}
+
+.chart-loading__text {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+@keyframes chart-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ==================== 空状态 ==================== */
+
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 280px;
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+.chart-empty__icon {
+  font-size: 48px;
+  color: var(--color-text-quaternary);
+  margin-bottom: var(--space-lg);
+  opacity: 0.6;
+}
+
+.chart-empty__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-sm);
+}
+
+.chart-empty__description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin: 0 0 var(--space-lg);
+  max-width: 240px;
+}
+
+.chart-empty__action {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-accent-primary);
+  background: transparent;
+  border: 1px solid var(--color-accent-primary);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.chart-empty__action:hover {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+/* ==================== 图表过滤器 ==================== */
+
+.chart-filters {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chart-filter {
+  flex-shrink: 0;
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  transition: var(--transition-all);
+  white-space: nowrap;
+}
+
+.chart-filter:hover {
+  background: var(--color-bg-quaternary);
+}
+
+.chart-filter--active {
+  background: var(--color-accent-primary);
+  color: white;
+  border-color: var(--color-accent-primary);
+}
+
+.chart-filter--active:hover {
+  background: var(--color-accent-secondary);
+}
+
+/* ==================== 时间筛选器 ==================== */
+
+.time-filter {
+  margin-bottom: var(--space-lg);
+}
+
+.filter-tabs {
+  display: flex;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.filter-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-tab {
+  flex-shrink: 0;
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: var(--transition-all);
+  white-space: nowrap;
+}
+
+.filter-tab:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-accent-primary);
+}
+
+.filter-tab--active {
+  background: var(--color-accent-primary);
+  color: white;
+  border-color: var(--color-accent-primary);
+  box-shadow: var(--shadow-accent);
+}
+
+.filter-tab--active:hover {
+  background: var(--color-accent-secondary);
+}
+
+/* ==================== 图表动画 ==================== */
+
+.chart-animate-in {
+  animation: chart-fade-in 0.6s ease-out;
+}
+
+@keyframes chart-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.chart-value-update {
+  animation: chart-value-pulse 0.4s ease-in-out;
+}
+
+@keyframes chart-value-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ==================== 响应式适配 ==================== */
+
+@media (max-width: 767px) {
+  .doughnut-chart {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .chart-center__value {
+    font-size: var(--font-size-xl);
+  }
+  
+  .chart-card {
+    padding: var(--space-md);
+  }
+  
+  .chart-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .chart-legend {
+    justify-content: center;
+  }
+  
+  .chart-filters {
+    padding-bottom: var(--space-xs);
+  }
+}
+
+@media (min-width: 768px) {
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .chart-container--responsive {
+    height: 320px;
+  }
+  
+  .doughnut-chart {
+    width: 320px;
+    height: 320px;
+  }
+  
+  .chart-center__value {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .chart-container--responsive {
+    height: 400px;
+  }
+  
+  .chart-card__header {
+    padding-bottom: var(--space-lg);
+  }
+  
+  .chart-legend {
+    justify-content: flex-start;
+  }
+}
+
+/* ==================== 打印样式 ==================== */
+
+@media print {
+  .chart-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+  
+  .chart-filters,
+  .chart-card__actions {
+    display: none;
+  }
+  
+  .chart-container canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js 加载测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            margin: 40px;
+            background: #1C1C1E;
+            color: white;
+        }
+        .test-section {
+            background: #2C2C2E;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .status.success { background: rgba(72, 187, 120, 0.2); color: #48BB78; }
+        .status.error { background: rgba(245, 101, 101, 0.2); color: #F56565; }
+        .status.warning { background: rgba(237, 137, 54, 0.2); color: #ED8936; }
+        .log {
+            background: #1A1A1A;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #5a67d8; }
+        canvas {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Chart.js 库加载测试</h1>
+    
+    <div class="test-section">
+        <h3>加载状态检查</h3>
+        <div id="loadStatus" class="status warning">检查中...</div>
+        <button onclick="checkChartJs()">重新检查</button>
+        <button onclick="forceReload()">强制重新加载</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>简单图表测试</h3>
+        <canvas id="testChart" width="400" height="200"></canvas>
+        <br>
+        <button onclick="createTestChart()">创建测试图表</button>
+    </div>
+    
+    <div class="test-section">
+        <h3>详细日志</h3>
+        <div id="log" class="log">等待检查...</div>
+        <button onclick="clearLog()">清空日志</button>
+    </div>
+
+    <!-- Chart.js 加载脚本 - 复制自主应用 -->
+    <script>
+        let logs = [];
+        
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logs.push(`[${timestamp}] ${message}`);
+            document.getElementById('log').textContent = logs.join('\n');
+        }
+        
+        function clearLog() {
+            logs = [];
+            document.getElementById('log').textContent = '日志已清空';
+        }
+        
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('loadStatus');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+        
+        function checkChartJs() {
+            addLog('🔍 开始检查Chart.js库状态...');
+            
+            const isLoaded = typeof Chart !== 'undefined';
+            const hasVersion = isLoaded && Chart.version;
+            
+            if (isLoaded && hasVersion) {
+                updateStatus(`✅ Chart.js已加载 (版本: ${Chart.version})`, 'success');
+                addLog(`✅ Chart.js库状态正常，版本: ${Chart.version}`);
+                return true;
+            } else if (isLoaded && !hasVersion) {
+                updateStatus('⚠️ Chart.js加载不完整', 'warning');
+                addLog('⚠️ Chart.js对象存在但版本信息缺失');
+                return false;
+            } else {
+                updateStatus('❌ Chart.js未加载', 'error');
+                addLog('❌ Chart.js库未加载或不可用');
+                return false;
+            }
+        }
+        
+        function createTestChart() {
+            addLog('📈 尝试创建测试图表...');
+            
+            if (!checkChartJs()) {
+                addLog('❌ 无法创建图表：Chart.js库未就绪');
+                return;
+            }
+            
+            const canvas = document.getElementById('testChart');
+            const ctx = canvas.getContext('2d');
+            
+            try {
+                // 销毁现有图表
+                if (window.testChartInstance) {
+                    window.testChartInstance.destroy();
+                }
+                
+                // 创建简单的测试图表
+                window.testChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['1月', '2月', '3月', '4月', '5月'],
+                        datasets: [{
+                            label: '测试数据',
+                            data: [12, 19, 3, 5, 2],
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                labels: { color: 'white' }
+                            }
+                        },
+                        scales: {
+                            x: { 
+                                ticks: { color: 'white' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            },
+                            y: { 
+                                ticks: { color: 'white' },
+                                grid: { color: 'rgba(255,255,255,0.1)' }
+                            }
+                        }
+                    }
+                });
+                
+                addLog('✅ 测试图表创建成功！');
+                updateStatus('✅ 图表功能正常工作', 'success');
+                
+            } catch (error) {
+                addLog(`❌ 创建图表失败: ${error.message}`);
+                updateStatus('❌ 图表创建失败', 'error');
+            }
+        }
+        
+        function forceReload() {
+            addLog('🔄 强制重新加载Chart.js库...');
+            if (window.reloadChartJs) {
+                window.reloadChartJs();
+                setTimeout(checkChartJs, 2000);
+            } else {
+                addLog('⚠️ 重新加载函数不可用，请刷新页面');
+            }
+        }
+        
+        // Chart.js 库加载脚本（复制自主应用）
+        (function() {
+            const chartjsUrls = [
+                'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js',
+                'https://unpkg.com/chart.js@4.4.1/dist/chart.umd.js',
+                'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js'
+            ];
+            
+            let currentIndex = 0;
+            let isLoading = false;
+            
+            function checkChartLoaded() {
+                return typeof Chart !== 'undefined' && Chart.version;
+            }
+            
+            function loadChartJs() {
+                if (isLoading) return;
+                isLoading = true;
+                
+                if (checkChartLoaded()) {
+                    addLog('✅ Chart.js已存在，版本: ' + Chart.version);
+                    window.chartJsLoaded = true;
+                    window.dispatchEvent(new CustomEvent('chartJsLoaded'));
+                    isLoading = false;
+                    checkChartJs();
+                    return;
+                }
+                
+                if (currentIndex >= chartjsUrls.length) {
+                    addLog('❌ 所有Chart.js CDN都加载失败！');
+                    window.chartJsLoadError = true;
+                    isLoading = false;
+                    checkChartJs();
+                    return;
+                }
+                
+                addLog(`📦 尝试加载Chart.js [${currentIndex + 1}/${chartjsUrls.length}]: ${chartjsUrls[currentIndex]}`);
+                
+                const script = document.createElement('script');
+                script.src = chartjsUrls[currentIndex];
+                script.async = true;
+                script.crossOrigin = 'anonymous';
+                
+                script.onload = function() {
+                    setTimeout(() => {
+                        if (checkChartLoaded()) {
+                            addLog('✅ Chart.js库加载成功: ' + chartjsUrls[currentIndex]);
+                            addLog('📊 Chart.js版本: ' + Chart.version);
+                            window.chartJsLoaded = true;
+                            window.dispatchEvent(new CustomEvent('chartJsLoaded'));
+                            checkChartJs();
+                        } else {
+                            addLog('⚠️ 脚本加载但Chart对象不可用: ' + chartjsUrls[currentIndex]);
+                            currentIndex++;
+                            loadChartJs();
+                        }
+                        isLoading = false;
+                    }, 100);
+                };
+                
+                script.onerror = function() {
+                    addLog('⚠️ Chart.js加载失败，尝试下一个CDN: ' + chartjsUrls[currentIndex]);
+                    currentIndex++;
+                    isLoading = false;
+                    setTimeout(loadChartJs, 200);
+                };
+                
+                setTimeout(() => {
+                    if (isLoading && !checkChartLoaded()) {
+                        addLog('⏰ Chart.js加载超时，尝试下一个CDN');
+                        currentIndex++;
+                        isLoading = false;
+                        loadChartJs();
+                    }
+                }, 10000);
+                
+                document.head.appendChild(script);
+            }
+            
+            // 为调试提供全局访问
+            window.reloadChartJs = function() {
+                currentIndex = 0;
+                isLoading = false;
+                window.chartJsLoaded = false;
+                window.chartJsLoadError = false;
+                loadChartJs();
+            };
+            
+            // 开始加载
+            addLog('🚀 开始加载Chart.js库...');
+            loadChartJs();
+        })();
+    </script>
+</body>
+</html>

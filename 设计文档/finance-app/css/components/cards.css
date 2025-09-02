@@ -1,0 +1,514 @@
+/**
+ * 卡片组件样式
+ * 包含基础卡片、玻璃卡片、统计卡片等组件
+ * Author: 设计团队
+ * Version: 1.0.0
+ */
+
+/* ==================== 基础卡片 ==================== */
+
+.card {
+  position: relative;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  transition: var(--transition-all);
+}
+
+.card:hover {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-accent);
+  transform: translateY(-2px);
+}
+
+.card--interactive {
+  cursor: pointer;
+}
+
+.card--interactive:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 卡片变体 */
+.card--glass {
+  background: linear-gradient(
+    135deg,
+    rgba(44, 44, 44, 0.9) 0%,
+    rgba(60, 60, 62, 0.7) 100%
+  );
+  backdrop-filter: var(--backdrop-blur-lg);
+  -webkit-backdrop-filter: var(--backdrop-blur-lg);
+  border: 1px solid var(--color-border-primary);
+}
+
+.card--outlined {
+  background: transparent;
+  border: 2px solid var(--color-border-primary);
+}
+
+.card--flat {
+  background: var(--color-bg-secondary);
+  border: none;
+  box-shadow: none;
+}
+
+.card--elevated {
+  box-shadow: var(--shadow-lg);
+  border: none;
+}
+
+/* ==================== 卡片结构 ==================== */
+
+.card__header {
+  padding: var(--space-lg) var(--space-lg) 0;
+}
+
+.card__body {
+  padding: var(--space-lg);
+}
+
+.card__footer {
+  padding: 0 var(--space-lg) var(--space-lg);
+  border-top: 1px solid var(--color-border-primary);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+}
+
+/* 紧凑布局 */
+.card--compact .card__header {
+  padding: var(--space-md) var(--space-md) 0;
+}
+
+.card--compact .card__body {
+  padding: var(--space-md);
+}
+
+.card--compact .card__footer {
+  padding: 0 var(--space-md) var(--space-md);
+}
+
+/* ==================== 卡片标题 ==================== */
+
+.card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-sm);
+  line-height: var(--line-height-tight);
+}
+
+.card__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-md);
+}
+
+.card__description {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* ==================== 统计卡片 ==================== */
+
+.stat-card {
+  position: relative;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-lg);
+  transition: var(--transition-all);
+  overflow: hidden;
+}
+
+.stat-card:hover {
+  border-color: var(--color-accent-primary);
+  box-shadow: var(--shadow-accent);
+}
+
+.stat-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: var(--space-md);
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--color-accent-primary);
+}
+
+.stat-card__value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-xs);
+  line-height: 1.1;
+}
+
+.stat-card__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-sm);
+}
+
+.stat-card__trend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.stat-card__trend--up {
+  color: var(--color-success);
+}
+
+.stat-card__trend--down {
+  color: var(--color-warning);
+}
+
+.stat-card__trend-icon {
+  font-size: 10px;
+}
+
+/* 统计卡片变体 */
+.stat-card--success {
+  border-color: var(--color-success);
+}
+
+.stat-card--success .stat-card__icon {
+  background: rgba(52, 199, 89, 0.1);
+  color: var(--color-success);
+}
+
+.stat-card--success .stat-card__value {
+  color: var(--color-success);
+}
+
+.stat-card--warning {
+  border-color: var(--color-warning);
+}
+
+.stat-card--warning .stat-card__icon {
+  background: rgba(255, 59, 48, 0.1);
+  color: var(--color-warning);
+}
+
+.stat-card--warning .stat-card__value {
+  color: var(--color-warning);
+}
+
+/* ==================== 概览卡片 ==================== */
+
+.overview-card {
+  background: linear-gradient(
+    135deg,
+    rgba(44, 44, 44, 0.9) 0%,
+    rgba(60, 60, 62, 0.7) 100%
+  );
+  backdrop-filter: var(--backdrop-blur-lg);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-2xl);
+  padding: var(--space-xl);
+  margin: var(--space-lg) var(--space-md);
+}
+
+.overview-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-xl);
+}
+
+.overview-card__item h3 {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.overview-card__item .amount {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  margin-bottom: var(--space-xs);
+}
+
+.overview-card__item .trend {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.overview-card__progress {
+  margin-top: var(--space-lg);
+}
+
+.overview-card__progress h4 {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: var(--color-bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-accent-primary) 0%, var(--color-accent-secondary) 100%);
+  border-radius: 3px;
+  transition: width 0.6s var(--ease-out);
+}
+
+/* ==================== 记录卡片 ==================== */
+
+.record-card {
+  display: flex;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-bg-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-lg);
+  margin-bottom: var(--space-xs);
+  transition: var(--transition-all);
+  cursor: pointer;
+}
+
+.record-card:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-border-primary);
+}
+
+.record-card:active {
+  transform: scale(0.98);
+  background: var(--color-bg-tertiary);
+}
+
+.record-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--space-md);
+  font-size: 18px;
+  color: white;
+}
+
+.record-card__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.record-card__title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-xs);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.record-card__meta {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+.record-card__amount {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-left: var(--space-md);
+  white-space: nowrap;
+}
+
+.record-card__amount--income {
+  color: var(--color-success);
+}
+
+.record-card__amount--expense {
+  color: var(--color-warning);
+}
+
+/* ==================== 图表卡片 ==================== */
+
+.chart-card {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-lg);
+}
+
+.chart-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.chart-card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.chart-card__actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.chart-card__body {
+  position: relative;
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  margin: 0 auto;
+}
+
+.chart-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 10;
+}
+
+.chart-center__label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.chart-center__value {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+  margin: 0;
+}
+
+/* ==================== 空状态卡片 ==================== */
+
+.empty-card {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-lg);
+  background: var(--color-bg-secondary);
+  border: 2px dashed var(--color-border-primary);
+  border-radius: var(--border-radius-xl);
+}
+
+.empty-card__icon {
+  font-size: 48px;
+  color: var(--color-text-quaternary);
+  margin-bottom: var(--space-lg);
+  opacity: 0.6;
+}
+
+.empty-card__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-sm);
+}
+
+.empty-card__description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin: 0 0 var(--space-lg);
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ==================== 响应式适配 ==================== */
+
+@media (max-width: 767px) {
+  .overview-card__row {
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: stretch;
+  }
+  
+  .overview-card__item {
+    text-align: center;
+  }
+  
+  .stat-card {
+    padding: var(--space-md);
+  }
+  
+  .stat-card__value {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .stat-card__value {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+/* ==================== 动画效果 ==================== */
+
+.card--animate-in {
+  animation: card-fade-in 0.4s var(--ease-out) forwards;
+}
+
+@keyframes card-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-card__value--counting {
+  animation: value-count 0.8s var(--ease-out);
+}
+
+@keyframes value-count {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

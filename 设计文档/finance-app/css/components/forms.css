@@ -1,0 +1,627 @@
+/**
+ * 表单组件样式
+ * 包含输入框、按钮、选择器等表单元素
+ * Author: 设计团队
+ * Version: 1.0.0
+ */
+
+/* ==================== 基础表单元素 ==================== */
+
+.form-group {
+  margin-bottom: var(--space-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-label--required::after {
+  content: ' *';
+  color: var(--color-warning);
+}
+
+/* ==================== 输入框 ==================== */
+
+.input {
+  width: 100%;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-lg);
+  outline: none;
+  transition: var(--transition-all);
+}
+
+.input::placeholder {
+  color: var(--color-text-quaternary);
+}
+
+.input:focus {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-bg-tertiary);
+}
+
+.input--error {
+  border-color: var(--color-warning);
+}
+
+.input--error:focus {
+  border-color: var(--color-warning);
+  box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.1);
+}
+
+.input--success {
+  border-color: var(--color-success);
+}
+
+/* 输入框尺寸变体 */
+.input--sm {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}
+
+.input--lg {
+  padding: var(--space-lg) var(--space-lg);
+  font-size: var(--font-size-lg);
+}
+
+/* ==================== 文本域 ==================== */
+
+.textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-lg);
+  outline: none;
+  resize: vertical;
+  transition: var(--transition-all);
+}
+
+.textarea::placeholder {
+  color: var(--color-text-quaternary);
+}
+
+.textarea:focus {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+/* ==================== 按钮 ==================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-lg);
+  outline: none;
+  transition: var(--transition-all);
+  min-height: var(--btn-height-md);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* 按钮变体 */
+.btn--primary {
+  background: var(--color-accent-primary);
+  color: white;
+}
+
+.btn--primary:hover {
+  background: var(--color-accent-secondary);
+  box-shadow: var(--shadow-accent);
+}
+
+.btn--secondary {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-primary);
+}
+
+.btn--secondary:hover {
+  background: var(--color-bg-tertiary);
+  border-color: var(--color-accent-primary);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-accent-primary);
+  border: 1px solid var(--color-accent-primary);
+}
+
+.btn--ghost:hover {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.btn--danger {
+  background: var(--color-warning);
+  color: white;
+}
+
+.btn--danger:hover {
+  background: var(--color-warning-light);
+  box-shadow: 0 4px 16px rgba(255, 59, 48, 0.3);
+}
+
+.btn--success {
+  background: var(--color-success);
+  color: white;
+}
+
+.btn--success:hover {
+  background: var(--color-success-light);
+  box-shadow: 0 4px 16px rgba(52, 199, 89, 0.3);
+}
+
+/* 按钮尺寸 */
+.btn--sm {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  min-height: var(--btn-height-sm);
+}
+
+.btn--lg {
+  padding: var(--space-lg) var(--space-xl);
+  font-size: var(--font-size-lg);
+  min-height: var(--btn-height-lg);
+}
+
+.btn--xl {
+  padding: var(--space-xl) var(--space-2xl);
+  font-size: var(--font-size-xl);
+  min-height: var(--btn-height-xl);
+}
+
+/* 圆形按钮 */
+.btn--round {
+  border-radius: var(--border-radius-full);
+}
+
+/* 块级按钮 */
+.btn--block {
+  width: 100%;
+}
+
+/* 图标按钮 */
+.btn--icon-only {
+  width: var(--btn-height-md);
+  height: var(--btn-height-md);
+  padding: 0;
+  border-radius: var(--border-radius-md);
+}
+
+.btn--icon-only.btn--sm {
+  width: var(--btn-height-sm);
+  height: var(--btn-height-sm);
+}
+
+.btn--icon-only.btn--lg {
+  width: var(--btn-height-lg);
+  height: var(--btn-height-lg);
+}
+
+/* ==================== 分段控制器 ==================== */
+
+.segment-control {
+  display: flex;
+  background: var(--color-bg-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-xs);
+  position: relative;
+  overflow: hidden;
+}
+
+.segment-option {
+  flex: 1;
+  padding: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: var(--transition-all);
+  position: relative;
+  z-index: 2;
+}
+
+.segment-option--active {
+  background: var(--color-accent-primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+}
+
+/* ==================== 开关控件 ==================== */
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle__input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-bg-tertiary);
+  border-radius: 12px;
+  transition: var(--transition-all);
+}
+
+.toggle__slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: var(--transition-all);
+}
+
+.toggle__input:checked + .toggle__slider {
+  background: var(--color-accent-primary);
+}
+
+.toggle__input:focus + .toggle__slider {
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.toggle__input:checked + .toggle__slider:before {
+  transform: translateX(20px);
+}
+
+/* ==================== 复选框 ==================== */
+
+.checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  user-select: none;
+}
+
+.checkbox__input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkbox__mark {
+  height: 20px;
+  width: 20px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border-primary);
+  border-radius: var(--border-radius-sm);
+  margin-right: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-all);
+}
+
+.checkbox__input:checked + .checkbox__mark {
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+}
+
+.checkbox__mark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox__input:checked + .checkbox__mark:after {
+  display: block;
+}
+
+/* ==================== 单选框 ==================== */
+
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  user-select: none;
+}
+
+.radio__input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.radio__mark {
+  height: 20px;
+  width: 20px;
+  background: var(--color-bg-secondary);
+  border: 2px solid var(--color-border-primary);
+  border-radius: 50%;
+  margin-right: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-all);
+}
+
+.radio__input:checked + .radio__mark {
+  border-color: var(--color-accent-primary);
+}
+
+.radio__mark:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-primary);
+  transform: scale(0);
+  transition: var(--transition-all);
+}
+
+.radio__input:checked + .radio__mark:after {
+  transform: scale(1);
+}
+
+/* ==================== 选择器 ==================== */
+
+.select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select__control {
+  width: 100%;
+  padding: var(--space-md);
+  padding-right: 40px;
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-lg);
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.select__control:focus {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.select__arrow {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+/* ==================== 文件上传 ==================== */
+
+.file-upload {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.file-upload__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.file-upload__button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-accent-primary);
+  background: transparent;
+  border: 2px dashed var(--color-border-primary);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.file-upload__button:hover {
+  border-color: var(--color-accent-primary);
+  background: rgba(0, 122, 255, 0.05);
+}
+
+/* ==================== 表单验证 ==================== */
+
+.form-error {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-warning);
+}
+
+.form-success {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-success);
+}
+
+.form-help {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+/* ==================== 特殊表单组件 ==================== */
+
+/* 金额输入 */
+.amount-input-section {
+  text-align: center;
+  padding: var(--space-xl) 0;
+}
+
+.amount-display {
+  position: relative;
+  margin-bottom: var(--space-lg);
+}
+
+.currency-symbol {
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-secondary);
+  margin-right: var(--space-xs);
+}
+
+.amount-input {
+  font-size: var(--font-size-5xl);
+  font-weight: var(--font-weight-light);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--color-border-primary);
+  color: var(--color-text-primary);
+  text-align: center;
+  outline: none;
+  width: auto;
+  min-width: 200px;
+  padding: var(--space-md) 0;
+  transition: var(--transition-all);
+}
+
+.amount-input:focus {
+  border-bottom-color: var(--color-accent-primary);
+}
+
+.amount-input::placeholder {
+  color: var(--color-text-quaternary);
+  opacity: 0.5;
+}
+
+/* 快捷金额按钮 */
+.quick-amounts {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.quick-amount-btn {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.quick-amount-btn:hover,
+.quick-amount-btn:active {
+  background: var(--color-accent-primary);
+  color: white;
+  transform: scale(0.95);
+}
+
+/* ==================== 响应式适配 ==================== */
+
+@media (max-width: 767px) {
+  .amount-input {
+    font-size: var(--font-size-4xl);
+    min-width: 150px;
+  }
+  
+  .quick-amounts {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+  
+  .quick-amount-btn {
+    flex: 1;
+    min-width: 80px;
+  }
+}
+
+@media (min-width: 768px) {
+  .btn--responsive {
+    width: auto;
+  }
+  
+  .form-group--horizontal {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+  }
+  
+  .form-group--horizontal .form-label {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计页面测试 - 粗颗粒度记账</title>
+    
+    <!-- 外部资源 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    
+    <!-- 主样式文件 -->
+    <link rel="stylesheet" href="./css/main.css">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(180deg, #1C1C1E 0%, #1A1A1A 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+        
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .test-header h1 {
+            color: #667eea;
+            margin: 0;
+        }
+        
+        .test-stats {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border-primary);
+            border-radius: var(--border-radius-xl);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>统计页面图表测试</h1>
+            <p>测试收支趋势图表和分类统计图表</p>
+        </div>
+        
+        <!-- 时间筛选器 -->
+        <div class="time-filter u-mb-lg">
+            <div class="filter-tabs">
+                <button class="filter-tab filter-tab--active" data-period="month">本月</button>
+                <button class="filter-tab" data-period="quarter">近3月</button>
+                <button class="filter-tab" data-period="half">近半年</button>
+                <button class="filter-tab" data-period="year">近一年</button>
+            </div>
+        </div>
+
+        <!-- 统计卡片网格 -->
+        <div class="stats-grid grid-cols-2 u-gap-md u-mb-lg">
+            <div class="stat-card stat-card--success">
+                <div class="stat-card__icon">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="stat-card__value" data-stat="income">¥240,000</div>
+                <div class="stat-card__label">总收入</div>
+                <div class="stat-card__trend stat-card__trend--up">
+                    <i class="fas fa-arrow-up stat-card__trend-icon"></i>
+                    <span>+15.2%</span>
+                </div>
+            </div>
+            
+            <div class="stat-card stat-card--warning">
+                <div class="stat-card__icon">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <div class="stat-card__value" data-stat="expense">¥174,500</div>
+                <div class="stat-card__label">总支出</div>
+                <div class="stat-card__trend stat-card__trend--down">
+                    <i class="fas fa-arrow-down stat-card__trend-icon"></i>
+                    <span>-8.3%</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-card__icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="stat-card__value" data-stat="balance">¥65,500</div>
+                <div class="stat-card__label">结余</div>
+                <div class="stat-card__trend stat-card__trend--up">
+                    <i class="fas fa-arrow-up stat-card__trend-icon"></i>
+                    <span>+28.7%</span>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-card__icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <div class="stat-card__value" data-stat="average">¥966</div>
+                <div class="stat-card__label">日均支出</div>
+                <div class="stat-card__trend">
+                    <span class="u-text-tertiary">每天</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 趋势图表 -->
+        <div class="chart-card u-mb-lg">
+            <div class="chart-card__header">
+                <h3 class="chart-card__title">收支趋势</h3>
+            </div>
+            <div class="chart-card__body">
+                <canvas id="trendChart" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- 分类统计 -->
+        <div class="chart-card">
+            <div class="chart-card__header">
+                <h3 class="chart-card__title">支出分类</h3>
+            </div>
+            <div class="chart-card__body">
+                <div class="category-chart-container">
+                    <canvas id="categoryChart" height="280"></canvas>
+                </div>
+                <div class="category-stats" id="categoryStats">
+                    <!-- 分类统计将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript文件 -->
+    <script src="./js/components/charts.js"></script>
+    
+    <script>
+        // 测试脚本
+        document.addEventListener('DOMContentLoaded', () => {
+            // 创建图表管理器
+            const chartManager = new ChartManager();
+            window.chartManager = chartManager;
+            
+            // 初始化图表
+            setTimeout(() => {
+                chartManager.initializeTrendChart();
+                chartManager.initializeCategoryChart();
+            }, 500);
+            
+            // 时间筛选器功能
+            document.addEventListener('click', (e) => {
+                if (e.target.matches('.filter-tab')) {
+                    // 更新按钮状态
+                    document.querySelectorAll('.filter-tab').forEach(tab => {
+                        tab.classList.remove('filter-tab--active');
+                    });
+                    e.target.classList.add('filter-tab--active');
+                    
+                    // 重新初始化图表
+                    setTimeout(() => {
+                        chartManager.initializeTrendChart();
+                        chartManager.initializeCategoryChart();
+                    }, 100);
+                }
+            });
+            
+            console.log('📊 统计页面图表测试页面加载完成');
+        });
+    </script>
+</body>
+</html>

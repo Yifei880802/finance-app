@@ -1,0 +1,349 @@
+/**
+ * CSS Reset & Normalize
+ * 基于现代CSS Reset最佳实践
+ * 针对移动端优化，确保跨浏览器一致性
+ * Author: 设计团队
+ * Version: 1.0.0
+ */
+
+/* ==================== 基础重置 ==================== */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ==================== HTML & Body ==================== */
+
+html {
+  /* 防止iOS中横屏时字体大小调整 */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  
+  /* 平滑滚动 */
+  scroll-behavior: smooth;
+  
+  /* 字体渲染优化 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  
+  /* 基础字体设置 */
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+body {
+  /* 字体系统 */
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  
+  /* 颜色系统 */
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  
+  /* 移动端优化 */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  /* 溢出处理 */
+  overflow-x: hidden;
+  
+  /* 最小高度 */
+  min-height: 100vh;
+  min-height: 100dvh; /* 动态视口高度 */
+}
+
+/* ==================== 标题元素 ==================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+h1 { font-size: var(--font-size-3xl); }
+h2 { font-size: var(--font-size-2xl); }
+h3 { font-size: var(--font-size-xl); }
+h4 { font-size: var(--font-size-lg); }
+h5 { font-size: var(--font-size-base); }
+h6 { font-size: var(--font-size-sm); }
+
+/* ==================== 文本元素 ==================== */
+
+p {
+  margin: 0;
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: var(--color-accent-primary);
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+
+a:hover,
+a:focus {
+  color: var(--color-accent-secondary);
+  outline: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
+strong, b {
+  font-weight: var(--font-weight-semibold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ==================== 列表元素 ==================== */
+
+ul, ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin: 0;
+}
+
+/* ==================== 表单元素 ==================== */
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  
+  /* 移除iOS默认样式 */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+input,
+textarea,
+select {
+  /* 移除默认样式 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  /* 重置边框 */
+  border: none;
+  outline: none;
+  
+  /* 背景透明 */
+  background: transparent;
+  
+  /* 禁用iOS缩放 */
+  font-size: 16px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 3rem;
+}
+
+/* 移除input在WebKit中的搜索取消按钮 */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* 移除input的数字调节器 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ==================== 媒体元素 ==================== */
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img {
+  border-style: none;
+}
+
+svg {
+  fill: currentColor;
+}
+
+/* ==================== 表格元素 ==================== */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0;
+}
+
+/* ==================== 其他元素 ==================== */
+
+hr {
+  border: none;
+  height: 1px;
+  background: var(--color-border-primary);
+  margin: var(--space-lg) 0;
+}
+
+blockquote {
+  margin: 0;
+  padding: 0;
+}
+
+code,
+pre {
+  font-family: var(--font-family-mono);
+  font-size: 0.9em;
+}
+
+pre {
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* ==================== 可访问性增强 ==================== */
+
+/* 聚焦状态 */
+:focus-visible {
+  outline: 2px solid var(--color-accent-primary);
+  outline-offset: 2px;
+}
+
+/* 减少动画 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* ==================== 移动端优化 ==================== */
+
+/* iOS安全区域适配 */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+
+/* 移动端触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+  /* 移动端不显示hover效果 */
+  a:hover {
+    color: var(--color-accent-primary);
+  }
+  
+  button:hover {
+    background: initial;
+  }
+}
+
+/* ==================== 打印样式 ==================== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+  
+  img {
+    page-break-inside: avoid;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}

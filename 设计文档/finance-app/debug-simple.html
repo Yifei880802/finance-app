@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js 问题调试</title>
+    <style>
+        body {
+            font-family: system-ui;
+            margin: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .section {
+            background: #2a2a2a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .error { color: #ff6b6b; }
+        .success { color: #51cf66; }
+        .warning { color: #ffd43b; }
+        pre {
+            background: #333;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Chart.js 加载问题调试</h1>
+    
+    <div class="section">
+        <h3>实时检测状态</h3>
+        <div id="status">检测中...</div>
+    </div>
+    
+    <div class="section">
+        <h3>调试信息</h3>
+        <pre id="debug-info">等待检测...</pre>
+    </div>
+    
+    <div class="section">
+        <h3>模拟错误</h3>
+        <button onclick="simulateError()">模拟用户看到的错误</button>
+        <div id="error-output"></div>
+    </div>
+
+    <script>
+        let debugInfo = [];
+        
+        function addDebug(message) {
+            debugInfo.push(`[${new Date().toLocaleTimeString()}] ${message}`);
+            document.getElementById('debug-info').textContent = debugInfo.join('\n');
+        }
+        
+        function updateStatus(message, className = '') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = className;
+        }
+        
+        function simulateError() {
+            // 模拟你提供的错误输出
+            const errorArray = ["⚠️ Chart.js 库未加载！"];
+            console.log(errorArray);
+            
+            document.getElementById('error-output').innerHTML = `
+                <pre class="error">模拟的用户错误输出：
+Array(1)
+0: "⚠️ Chart.js 库未加载！"
+length: 1</pre>
+            `;
+        }
+        
+        function detectChartJs() {
+            addDebug('开始检测Chart.js...');
+            
+            // 检查是否有Chart对象
+            if (typeof Chart === 'undefined') {
+                addDebug('❌ Chart 对象未定义');
+                updateStatus('❌ Chart.js 完全未加载', 'error');
+                return false;
+            }
+            
+            // 检查Chart对象的属性
+            addDebug('✅ Chart 对象存在');
+            addDebug(`Chart 类型: ${typeof Chart}`);
+            
+            if (Chart.version) {
+                addDebug(`✅ Chart.js 版本: ${Chart.version}`);
+                updateStatus(`✅ Chart.js 正常 (${Chart.version})`, 'success');
+                return true;
+            } else {
+                addDebug('⚠️ Chart.version 不存在');
+                updateStatus('⚠️ Chart.js 加载不完整', 'warning');
+                return false;
+            }
+        }
+        
+        // 尝试多种方式加载Chart.js
+        addDebug('🚀 开始加载测试...');
+        
+        // 方法1：直接尝试加载 Chart.js 4.4.1
+        const script1 = document.createElement('script');
+        script1.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js';
+        script1.onload = () => {
+            addDebug('✅ JSDelivr CDN 加载成功');
+            detectChartJs();
+        };
+        script1.onerror = () => {
+            addDebug('❌ JSDelivr CDN 加载失败，尝试其他CDN...');
+            
+            // 方法2：尝试 CDNJS
+            const script2 = document.createElement('script');
+            script2.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js';
+            script2.onload = () => {
+                addDebug('✅ CDNJS CDN 加载成功');
+                detectChartJs();
+            };
+            script2.onerror = () => {
+                addDebug('❌ CDNJS CDN 也失败，尝试 unpkg...');
+                
+                // 方法3：尝试 unpkg
+                const script3 = document.createElement('script');
+                script3.src = 'https://unpkg.com/chart.js@4.4.1/dist/chart.umd.js';
+                script3.onload = () => {
+                    addDebug('✅ unpkg CDN 加载成功');
+                    detectChartJs();
+                };
+                script3.onerror = () => {
+                    addDebug('❌ 所有 CDN 都失败了！');
+                    updateStatus('❌ 网络连接问题或所有CDN不可用', 'error');
+                    
+                    // 模拟用户看到的错误
+                    setTimeout(() => {
+                        const errorMsg = "⚠️ Chart.js 库未加载！";
+                        console.log([errorMsg]); // 这会产生用户看到的Array输出
+                        addDebug(`🔍 这会产生用户看到的错误: [${errorMsg}]`);
+                    }, 1000);
+                };
+                document.head.appendChild(script3);
+            };
+            document.head.appendChild(script2);
+        };
+        
+        document.head.appendChild(script1);
+        
+        // 5秒后进行最终检测
+        setTimeout(() => {
+            addDebug('⏰ 5秒超时检测...');
+            const finalResult = detectChartJs();
+            if (!finalResult) {
+                addDebug('🔄 最终检测：Chart.js 加载失败');
+                updateStatus('🔄 5秒后仍未成功加载Chart.js', 'error');
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

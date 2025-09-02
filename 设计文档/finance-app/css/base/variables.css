@@ -1,0 +1,232 @@
+/**
+ * CSS变量定义 - 设计系统核心变量
+ * 包含颜色、字体、间距、阴影等全局样式变量
+ * Author: 设计团队
+ * Version: 1.0.0
+ */
+
+:root {
+  /* ==================== 颜色系统 ==================== */
+  
+  /* 主要背景色 */
+  --color-bg-primary: #1E1E1E;
+  --color-bg-secondary: #2C2C2C;
+  --color-bg-tertiary: #3C3C3E;
+  --color-bg-quaternary: #48484A;
+  
+  /* 强调色系 */
+  --color-accent-primary: #007AFF;
+  --color-accent-secondary: #5AC8FA;
+  --color-accent-tertiary: #AF52DE;
+  
+  /* 文字色系 */
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #AAAAAA;
+  --color-text-tertiary: #8E8E93;
+  --color-text-quaternary: #6D6D70;
+  
+  /* 状态色系 */
+  --color-success: #34C759;
+  --color-success-light: #30D158;
+  --color-warning: #FF3B30;
+  --color-warning-light: #FF453A;
+  --color-info: #007AFF;
+  --color-info-light: #0A84FF;
+  
+  /* 边框色系 */
+  --color-border-primary: rgba(255, 255, 255, 0.1);
+  --color-border-secondary: rgba(255, 255, 255, 0.05);
+  --color-border-accent: rgba(0, 122, 255, 0.3);
+  
+  /* 遮罩色系 */
+  --color-overlay-light: rgba(0, 0, 0, 0.3);
+  --color-overlay-medium: rgba(0, 0, 0, 0.5);
+  --color-overlay-heavy: rgba(0, 0, 0, 0.7);
+  
+  /* ==================== 字体系统 ==================== */
+  
+  /* 字体族 */
+  --font-family-primary: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', system-ui, sans-serif;
+  --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  
+  /* 字体大小 */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3rem;       /* 48px */
+  
+  /* 字体权重 */
+  --font-weight-thin: 100;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* 行高 */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+  --line-height-loose: 1.8;
+  
+  /* ==================== 间距系统 ==================== */
+  
+  /* 基础间距单元 */
+  --space-unit: 0.25rem;        /* 4px */
+  --space-xs: calc(var(--space-unit) * 2);    /* 8px */
+  --space-sm: calc(var(--space-unit) * 3);    /* 12px */
+  --space-md: calc(var(--space-unit) * 4);    /* 16px */
+  --space-lg: calc(var(--space-unit) * 6);    /* 24px */
+  --space-xl: calc(var(--space-unit) * 8);    /* 32px */
+  --space-2xl: calc(var(--space-unit) * 12);  /* 48px */
+  --space-3xl: calc(var(--space-unit) * 16);  /* 64px */
+  
+  /* 容器间距 */
+  --container-padding: var(--space-md);
+  --container-margin: var(--space-lg);
+  
+  /* ==================== 圆角系统 ==================== */
+  
+  --border-radius-none: 0;
+  --border-radius-sm: 0.25rem;     /* 4px */
+  --border-radius-md: 0.5rem;      /* 8px */
+  --border-radius-lg: 0.75rem;     /* 12px */
+  --border-radius-xl: 1rem;        /* 16px */
+  --border-radius-2xl: 1.25rem;    /* 20px */
+  --border-radius-3xl: 1.5rem;     /* 24px */
+  --border-radius-full: 9999px;
+  
+  /* ==================== 阴影系统 ==================== */
+  
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0 24px 48px rgba(0, 0, 0, 0.3);
+  
+  /* 内阴影 */
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  /* 彩色阴影 */
+  --shadow-accent: 0 4px 16px rgba(0, 122, 255, 0.3);
+  --shadow-success: 0 4px 16px rgba(52, 199, 89, 0.3);
+  --shadow-warning: 0 4px 16px rgba(255, 59, 48, 0.3);
+  
+  /* ==================== 过渡动画 ==================== */
+  
+  /* 时长 */
+  --transition-fast: 0.15s;
+  --transition-normal: 0.25s;
+  --transition-slow: 0.35s;
+  
+  /* 缓动函数 */
+  --ease-out: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  /* 组合过渡 */
+  --transition-all: all var(--transition-normal) var(--ease-out);
+  --transition-transform: transform var(--transition-fast) var(--ease-out);
+  --transition-opacity: opacity var(--transition-normal) var(--ease-out);
+  --transition-colors: background-color var(--transition-fast) var(--ease-out), 
+                       border-color var(--transition-fast) var(--ease-out), 
+                       color var(--transition-fast) var(--ease-out);
+  
+  /* ==================== Z-index层级 ==================== */
+  
+  --z-dropdown: 1000;
+  --z-sticky: 1010;
+  --z-fixed: 1020;
+  --z-modal-backdrop: 1030;
+  --z-modal: 1040;
+  --z-popover: 1050;
+  --z-tooltip: 1060;
+  --z-toast: 1070;
+  
+  /* ==================== 断点系统 ==================== */
+  
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  /* ==================== 毛玻璃效果 ==================== */
+  
+  --backdrop-blur-sm: blur(4px);
+  --backdrop-blur-md: blur(8px);
+  --backdrop-blur-lg: blur(16px);
+  --backdrop-blur-xl: blur(24px);
+  
+  /* ==================== 组件尺寸 ==================== */
+  
+  /* 按钮尺寸 */
+  --btn-height-sm: 2rem;        /* 32px */
+  --btn-height-md: 2.5rem;      /* 40px */
+  --btn-height-lg: 3rem;        /* 48px */
+  --btn-height-xl: 3.5rem;      /* 56px */
+  
+  /* 输入框尺寸 */
+  --input-height-sm: 2rem;      /* 32px */
+  --input-height-md: 2.5rem;    /* 40px */
+  --input-height-lg: 3rem;      /* 48px */
+  
+  /* 导航栏高度 */
+  --navbar-height: 3.5rem;      /* 56px */
+  --bottom-nav-height: 5rem;    /* 80px */
+  --status-bar-height: 2.75rem; /* 44px */
+  
+  /* 卡片最小高度 */
+  --card-min-height: 4rem;      /* 64px */
+  
+  /* ==================== 响应式容器 ==================== */
+  
+  --container-sm: 576px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  
+  /* 移动端容器 */
+  --mobile-max-width: 430px;
+}
+
+/* ==================== 深色主题扩展 ==================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 在系统深色模式下的额外调整 */
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #1C1C1E;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #EBEBF5;
+  }
+}
+
+/* ==================== 高对比度模式 ==================== */
+
+@media (prefers-contrast: high) {
+  :root {
+    --color-border-primary: rgba(255, 255, 255, 0.3);
+    --color-text-secondary: #CCCCCC;
+  }
+}
+
+/* ==================== 减少动画模式 ==================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0s;
+    --transition-normal: 0s;
+    --transition-slow: 0s;
+  }
+}

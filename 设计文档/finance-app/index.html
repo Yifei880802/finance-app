@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="粗颗粒度记账">
+    
+    <title>粗颗粒度记账 - 极简记账应用</title>
+    <meta name="description" content="面向80后的极简记账应用，采用紫色渐变主题，专注数据可视化">
+    <meta name="keywords" content="记账,理财,预算,收支管理,数据分析">
+    
+    <!-- 外部资源 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js 库 - 终极解决方案 -->
+    <script>
+        // Chart.js 库加载的终极解决方案
+        (function() {
+            // 首先尝试本地加载，再尝试网络加载
+            const chartjsUrls = [
+                // 尝试更稳定的CDN
+                'https://unpkg.com/chart.js@4.4.0/dist/chart.umd.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js',
+                'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js',
+                
+                // 更早期的稳定版本
+                'https://unpkg.com/chart.js@4.3.3/dist/chart.umd.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.3/chart.umd.js',
+                'https://cdn.jsdelivr.net/npm/chart.js@4.3.3/dist/chart.umd.js',
+                
+                // 更早期的版本
+                'https://unpkg.com/chart.js@4.2.1/dist/chart.umd.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js'
+            ];
+            
+            let currentIndex = 0;
+            let isLoading = false;
+            let loadAttempts = 0;
+            const maxAttempts = chartjsUrls.length;
+            let fallbackMode = false;
+            
+            // 增强的Chart.js检查函数
+            function checkChartLoaded() {
+                try {
+                    return typeof Chart !== 'undefined' && 
+                           Chart.version && 
+                           typeof Chart.Chart !== 'undefined';
+                } catch (e) {
+                    return false;
+                }
+            }
+            
+            function notifySuccess() {
+                console.log('✅ Chart.js库最终加载成功！');
+                console.log('📈 Chart.js版本:', Chart.version);
+                window.chartJsLoaded = true;
+                window.chartJsLoadError = false;
+                
+                // 触发加载成功事件
+                try {
+                    window.dispatchEvent(new CustomEvent('chartJsLoaded', {
+                        detail: { version: Chart.version }
+                    }));
+                } catch (e) {
+                    console.warn('事件触发失败:', e);
+                }
+            }
+            
+            function createMockChart() {
+                console.warn('🎨 启用模拟图表模式');
+                
+                // 创建一个基本的Mock Chart对象
+                window.Chart = function(ctx, config) {
+                    this.canvas = ctx.canvas;
+                    this.config = config;
+                    this.data = config.data;
+                    this.options = config.options;
+                    
+                    // 创建简单的视觉表示
+                    this.render = function() {
+                        const canvas = this.canvas;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // 清空画布
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        
+                        // 设置背景
+                        ctx.fillStyle = 'rgba(102, 126, 234, 0.1)';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        
+                        // 显示提示文字
+                        ctx.fillStyle = '#667eea';
+                        ctx.font = '16px SF Pro Display, system-ui, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('📈 图表数据显示', canvas.width / 2, canvas.height / 2 - 20);
+                        
+                        ctx.fillStyle = '#8E8E93';
+                        ctx.font = '12px SF Pro Display, system-ui, sans-serif';
+                        ctx.fillText('网络加载中，请稍后...', canvas.width / 2, canvas.height / 2 + 10);
+                        
+                        // 绘制简单的数据线
+                        if (this.data && this.data.datasets) {
+                            ctx.strokeStyle = '#60a5fa';
+                            ctx.lineWidth = 2;
+                            ctx.beginPath();
+                            ctx.moveTo(50, canvas.height - 50);
+                            ctx.lineTo(150, canvas.height - 80);
+                            ctx.lineTo(250, canvas.height - 60);
+                            ctx.lineTo(350, canvas.height - 90);
+                            ctx.stroke();
+                        }
+                    };
+                    
+                    this.destroy = function() {
+                        if (this.canvas) {
+                            const ctx = this.canvas.getContext('2d');
+                            ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                        }
+                    };
+                    
+                    // 立即渲染
+                    setTimeout(() => this.render(), 100);
+                };
+                
+                // 添加基本属性
+                window.Chart.version = '4.x-mock';
+                window.Chart.Chart = window.Chart;
+                window.Chart.defaults = {
+                    responsive: true,
+                    maintainAspectRatio: false
+                };
+                
+                fallbackMode = true;
+                window.chartJsLoaded = true;
+                window.chartJsLoadError = false;
+                
+                // 触发事件
+                try {
+                    window.dispatchEvent(new CustomEvent('chartJsLoaded', {
+                        detail: { version: 'mock', fallback: true }
+                    }));
+                } catch (e) {
+                    console.warn('事件触发失败:', e);
+                }
+                
+                console.log('🎨 模拟图表模式已启用');
+            }
+            
+            function notifyFailure() {
+                console.error('❌ 所有Chart.js CDN都加载失败！');
+                console.log('🎨 尝试启用模拟图表模式...');
+                
+                // 尝试启用模拟模式
+                setTimeout(createMockChart, 500);
+            }
+            
+            function loadChartJs() {
+                // 防止重复加载
+                if (isLoading) {
+                    console.log('🔄 Chart.js正在加载中...');
+                    return;
+                }
+                
+                // 检查是否已经加载
+                if (checkChartLoaded()) {
+                    console.log('✅ Chart.js已存在，跳过加载');
+                    notifySuccess();
+                    return;
+                }
+                
+                if (currentIndex >= chartjsUrls.length) {
+                    notifyFailure();
+                    return;
+                }
+                
+                isLoading = true;
+                loadAttempts++;
+                
+                const currentUrl = chartjsUrls[currentIndex];
+                console.log(`📦 加载Chart.js [${loadAttempts}/${maxAttempts}]: ${currentUrl}`);
+                
+                const script = document.createElement('script');
+                script.src = currentUrl;
+                script.async = true; // 改为异步加载
+                script.crossOrigin = 'anonymous';
+                script.type = 'text/javascript';
+                
+                let hasTimedOut = false;
+                
+                // 缩短超时时间
+                const timeout = setTimeout(() => {
+                    if (isLoading && !checkChartLoaded()) {
+                        console.warn(`⏰ Chart.js加载超时: ${currentUrl}`);
+                        hasTimedOut = true;
+                        isLoading = false;
+                        currentIndex++;
+                        setTimeout(loadChartJs, 50); // 缩短重试间隔
+                    }
+                }, 3000); // 缩短为3秒超时
+                
+                script.onload = function() {
+                    clearTimeout(timeout);
+                    if (hasTimedOut) return;
+                    
+                    // 给浏览器一些时间来执行脚本
+                    setTimeout(() => {
+                        if (checkChartLoaded()) {
+                            console.log(`✅ Chart.js加载成功: ${currentUrl}`);
+                            isLoading = false;
+                            notifySuccess();
+                        } else {
+                            console.warn(`⚠️ 脚本加载但Chart对象不可用: ${currentUrl}`);
+                            isLoading = false;
+                            currentIndex++;
+                            setTimeout(loadChartJs, 100);
+                        }
+                    }, 100); // 缩短等待时间
+                };
+                
+                script.onerror = function() {
+                    clearTimeout(timeout);
+                    if (hasTimedOut) return;
+                    
+                    console.warn(`⚠️ Chart.js加载失败: ${currentUrl}`);
+                    isLoading = false;
+                    currentIndex++;
+                    setTimeout(loadChartJs, 100); // 缩短重试间隔
+                };
+                
+                // 添加到文档
+                try {
+                    document.head.appendChild(script);
+                } catch (e) {
+                    console.error('无法添加脚本标签:', e);
+                    clearTimeout(timeout);
+                    isLoading = false;
+                    currentIndex++;
+                    setTimeout(loadChartJs, 50);
+                }
+            }
+            
+            // 全局重新加载函数
+            window.reloadChartJs = function() {
+                console.log('🔄 强制重新加载Chart.js...');
+                currentIndex = 0;
+                isLoading = false;
+                loadAttempts = 0;
+                fallbackMode = false;
+                window.chartJsLoaded = false;
+                window.chartJsLoadError = false;
+                
+                // 清理现有的Chart对象
+                if (typeof Chart !== 'undefined') {
+                    try {
+                        delete window.Chart;
+                    } catch (e) {
+                        window.Chart = undefined;
+                    }
+                }
+                
+                loadChartJs();
+            };
+            
+            // 检查是否在本地环境中或网络不可用
+            function checkNetworkAndStart() {
+                // 尝试加载一个小的测试图片来检查网络
+                const testImage = new Image();
+                testImage.onload = function() {
+                    console.log('🌐 网络连接正常，开始加载Chart.js');
+                    loadChartJs();
+                };
+                testImage.onerror = function() {
+                    console.warn('🚅 网络连接不佳，直接启用模拟模式');
+                    setTimeout(createMockChart, 1000);
+                };
+                testImage.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/package.json';
+                
+                // 如果5秒内没有响应，直接开始加载
+                setTimeout(() => {
+                    if (!window.chartJsLoaded && !isLoading) {
+                        console.log('🚀 超时检查，直接开始加载');
+                        loadChartJs();
+                    }
+                }, 2000);
+            }
+            
+            // 开始加载
+            console.log('🚀 初始化Chart.js加载系统...');
+            checkNetworkAndStart();
+        })();
+    </script>
+    
+    <!-- 主样式文件 -->
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+    <div class="app" id="app">
+        <!-- 应用头部（包含状态栏） -->
+        <div class="app-header">
+            <!-- 状态栏 -->
+            <div class="status-bar">
+                <div class="status-bar__time" id="statusTime">9:41</div>
+                <div class="status-bar__icons">
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <div class="battery">
+                        <div class="battery-level"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 应用标题栏 -->
+            <div class="header-content">
+                <div class="app-title">
+                    <div class="app-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div>
+                        <div class="app-name">粗颗粒度记账</div>
+                        <div class="year-indicator">2024年</div>
+                    </div>
+                </div>
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 首页 -->
+        <div id="home" class="page page--active">
+            <div class="page__content">
+                <!-- 年度净收支卡片 -->
+                <div class="balance-card">
+                    <div class="balance-card__header">
+                        <h3>2024年度净收支</h3>
+                    </div>
+                    <div class="balance-card__amount">
+                        <span class="balance-sign">+</span>
+                        <span class="balance-symbol">¥</span>
+                        <span class="balance-value">128,560</span>
+                    </div>
+                    <div class="balance-card__breakdown">
+                        <div class="breakdown-item breakdown-item--income">
+                            <div class="breakdown-amount">¥456,800</div>
+                            <div class="breakdown-label">总收入</div>
+                        </div>
+                        <div class="breakdown-item breakdown-item--expense">
+                            <div class="breakdown-amount">¥328,240</div>
+                            <div class="breakdown-label">总支出</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 年度收支趋势图表 -->
+                <div class="chart-section">
+                    <div class="chart-section__header">
+                        <i class="fas fa-chart-line chart-icon"></i>
+                        <h3>年度收支趋势</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="yearlyTrendChart" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- 月度概览 -->
+                <div class="monthly-overview">
+                    <div class="monthly-overview__header">
+                        <i class="fas fa-calendar chart-icon"></i>
+                        <h3>月度概览</h3>
+                    </div>
+                    <div class="monthly-grid">
+                        <div class="month-card">
+                            <div class="month-name">1月</div>
+                            <div class="month-amount">¥8,500</div>
+                        </div>
+                        <div class="month-card">
+                            <div class="month-name">2月</div>
+                            <div class="month-amount">¥12,300</div>
+                        </div>
+                        <div class="month-card">
+                            <div class="month-name">3月</div>
+                            <div class="month-amount">¥9,800</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 记账页面 -->
+        <div id="record" class="page">
+            <div class="top-nav">
+                <button class="top-nav__back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="top-nav__title">添加记录</h1>
+                <button class="top-nav__btn" id="saveRecord">
+                    <span>保存</span>
+                </button>
+            </div>
+            
+            <div class="page__content">
+                <!-- 收支类型选择 -->
+                <div class="u-mb-lg">
+                    <div class="segment-control">
+                        <button class="segment-option segment-option--active" data-type="expense">
+                            支出
+                        </button>
+                        <button class="segment-option" data-type="income">
+                            收入
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 金额输入 -->
+                <div class="amount-input-section u-mb-xl">
+                    <div class="amount-display u-text-center">
+                        <span class="currency-symbol">¥</span>
+                        <input type="number" 
+                               id="amountInput" 
+                               class="amount-input" 
+                               placeholder="0.00" 
+                               step="0.01"
+                               min="0">
+                    </div>
+                    <div class="quick-amounts">
+                        <button class="quick-amount-btn" data-amount="100">¥100</button>
+                        <button class="quick-amount-btn" data-amount="500">¥500</button>
+                        <button class="quick-amount-btn" data-amount="1000">¥1000</button>
+                    </div>
+                </div>
+
+                <!-- 分类选择 -->
+                <div class="category-section u-mb-lg">
+                    <h3 class="u-text-lg u-font-semibold u-mb-md">选择分类</h3>
+                    <div class="category-grid grid-cols-4 u-gap-sm" id="categoryGrid">
+                        <!-- 分类项将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 备注输入 -->
+                <div class="note-section">
+                    <label class="u-text-sm u-text-secondary u-mb-xs u-block">备注信息（可选）</label>
+                    <textarea id="noteInput" 
+                             class="note-input" 
+                             rows="3" 
+                             placeholder="添加备注..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- 统计页面 -->
+        <div id="stats" class="page">
+            <div class="page__header">
+                <h1 class="page__title">统计分析</h1>
+            </div>
+            
+            <div class="page__content">
+                <!-- 时间筛选器 -->
+                <div class="time-filter u-mb-lg">
+                    <div class="filter-tabs">
+                        <button class="filter-tab filter-tab--active" data-period="month">本月</button>
+                        <button class="filter-tab" data-period="quarter">近3月</button>
+                        <button class="filter-tab" data-period="half">近半年</button>
+                        <button class="filter-tab" data-period="year">近一年</button>
+                    </div>
+                </div>
+
+                <!-- 统计卡片网格 -->
+                <div class="stats-grid grid-cols-2 u-gap-md u-mb-lg">
+                    <div class="stat-card stat-card--success">
+                        <div class="stat-card__icon">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                        <div class="stat-card__value" data-stat="income">¥8,500</div>
+                        <div class="stat-card__label">总收入</div>
+                        <div class="stat-card__trend stat-card__trend--up">
+                            <i class="fas fa-arrow-up stat-card__trend-icon"></i>
+                            <span>+12.5%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card stat-card--warning">
+                        <div class="stat-card__icon">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="stat-card__value" data-stat="expense">¥3,245</div>
+                        <div class="stat-card__label">总支出</div>
+                        <div class="stat-card__trend stat-card__trend--down">
+                            <i class="fas fa-arrow-down stat-card__trend-icon"></i>
+                            <span>-8.3%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card__icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="stat-card__value" data-stat="balance">¥5,255</div>
+                        <div class="stat-card__label">结余</div>
+                        <div class="stat-card__trend stat-card__trend--up">
+                            <i class="fas fa-arrow-up stat-card__trend-icon"></i>
+                            <span>+23.1%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card__icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="stat-card__value" data-stat="average">¥108</div>
+                        <div class="stat-card__label">日均支出</div>
+                        <div class="stat-card__trend">
+                            <span class="u-text-tertiary">每天</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 趋势图表 -->
+                <div class="chart-card u-mb-lg">
+                    <div class="chart-card__header">
+                        <h3 class="chart-card__title">收支趋势</h3>
+                    </div>
+                    <div class="chart-card__body">
+                        <canvas id="trendChart" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- 分类统计 -->
+                <div class="chart-card">
+                    <div class="chart-card__header">
+                        <h3 class="chart-card__title">支出分类</h3>
+                    </div>
+                    <div class="chart-card__body">
+                        <div class="category-chart-container">
+                            <canvas id="categoryChart" height="280"></canvas>
+                        </div>
+                        <div class="category-stats" id="categoryStats">
+                            <!-- 分类统计将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置页面 -->
+        <div id="settings" class="page">
+            <div class="page__header">
+                <h1 class="page__title">设置</h1>
+            </div>
+            
+            <div class="page__content">
+                <!-- 用户信息 -->
+                <div class="user-profile u-mb-xl">
+                    <div class="profile-card">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3>用户名</h3>
+                            <p>注册于 2024年1月</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 设置分组 -->
+                <div class="settings-section">
+                    <div class="settings-section-title">账户管理</div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div>
+                                <i class="fas fa-credit-card"></i>
+                                <span>账户管理</span>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <i class="fas fa-tags"></i>
+                                <span>分类管理</span>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-section-title">数据管理</div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div>
+                                <i class="fas fa-cloud"></i>
+                                <span>数据备份</span>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <i class="fas fa-download"></i>
+                                <span>数据导出</span>
+                            </div>
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-section-title">应用设置</div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div>
+                                <i class="fas fa-bell"></i>
+                                <span>通知提醒</span>
+                            </div>
+                            <div class="toggle-switch" id="notificationToggle">
+                                <div class="toggle-knob"></div>
+                            </div>
+                        </div>
+                        <div class="settings-item">
+                            <div>
+                                <i class="fas fa-palette"></i>
+                                <span>深色模式</span>
+                            </div>
+                            <div class="toggle-switch active" id="darkModeToggle">
+                                <div class="toggle-knob"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <div class="settings-section-title">关于</div>
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div>
+                                <i class="fas fa-info-circle"></i>
+                                <span>版本信息</span>
+                            </div>
+                            <span class="u-text-tertiary">v1.0.0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部导航 -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item nav-item--active" data-page="home">
+                <i class="nav-item__icon fas fa-home"></i>
+                <span class="nav-item__text">概览</span>
+            </a>
+            <a href="#" class="nav-item" data-page="record">
+                <i class="nav-item__icon fas fa-plus-circle"></i>
+                <span class="nav-item__text">记账</span>
+            </a>
+            <a href="#" class="nav-item" data-page="stats">
+                <i class="nav-item__icon fas fa-chart-pie"></i>
+                <span class="nav-item__text">统计</span>
+            </a>
+            <a href="#" class="nav-item" data-page="settings">
+                <i class="nav-item__icon fas fa-cog"></i>
+                <span class="nav-item__text">设置</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- JavaScript文件 -->
+    <script src="./js/utils/storage.js"></script>
+    <script src="./js/utils/helpers.js"></script>
+    <script src="./js/components/charts.js"></script>
+    <script src="./js/components/forms.js"></script>
+    <script src="./js/components/navbar.js"></script>
+    <script src="./js/main.js"></script>
+
+    <!-- Service Worker注册 -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => console.log('SW注册成功:', registration))
+                    .catch(error => console.log('SW注册失败:', error));
+            });
+        }
+    </script>
+</body>
+</html>
